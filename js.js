@@ -215,7 +215,7 @@ window.onload = function() {
 
     };
 
-      function checkDeadlines() {
+     /* function checkDeadlines() {
 
         var now = new Date();
         var minuteCheck = now.getMinutes();
@@ -238,7 +238,7 @@ window.onload = function() {
 
         }
 
-    }
+    }*/
 
 
     function createNotification(title) {
