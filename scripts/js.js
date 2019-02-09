@@ -339,7 +339,7 @@ window.onload = function() {
 
 
 
-  var request=new Request("1.json");
+  var request=new Request("Voloshch.github.io/scripts/1.json");
   request.then(d=>console.log(d));
   var items=[];
   request.then(function(data){
