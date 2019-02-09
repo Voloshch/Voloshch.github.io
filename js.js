@@ -111,9 +111,8 @@ class Item{
         numOfMonth=items.month;
       }
       var newItem = [
-                { taskTitle: items.name, day: numOfDay, month: numOfMonth, year: 2019, notified: "no" }
+                { taskTitle: items.name, day: 9, month: 1, year: 2019, notified: "no" }
             ];
-      console.log(newItem);
       var transaction = db.transaction(["toDoList"], "readwrite");
       transaction.oncomplete = function() {
         console.log("Transaction completed: database modification finished");
@@ -229,7 +228,7 @@ window.onload = function() {
             var cursor = event.target.result;
             if(cursor) {
 
-                if(hourCheck == 10 && minuteCheck == 00 && +(cursor.value.day) == dayCheck-cursor.value.period && cursor.value.month == monthCheck && cursor.value.year == yearCheck && cursor.value.notified == "no") {
+                if(hourCheck == 19 && minuteCheck == 59 && +(cursor.value.day) == cursor.value.period && cursor.value.month == monthCheck && cursor.value.year == yearCheck && cursor.value.notified == "no") {
                     createNotification(cursor.value.taskTitle);
                 }
 
