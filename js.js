@@ -187,7 +187,6 @@ window.onload = function() {
   window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
   window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
   window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-  window.indexedDB.deleteDatabase("toDoList");
   var DBOpenRequest = window.indexedDB.open("toDoList", 4);
   DBOpenRequest.onerror = function(event) {
     console.log("Error loading database");
