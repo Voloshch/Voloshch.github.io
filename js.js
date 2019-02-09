@@ -111,7 +111,7 @@ class Item{
         numOfMonth=items.month;
       }
       var newItem = [
-                { taskTitle: items.name, day: numOfDay, month: numOfMonth, year: 2019, notified: "no" }
+                { taskTitle: items.name, day: 9, month: 1, year: 2019, notified: "no" }
             ];
       var transaction = db.transaction(["toDoList"], "readwrite");
       transaction.oncomplete = function() {
