@@ -1,6 +1,22 @@
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/Voloshch.github.io/sw.js', { scope: '/Voloshch.github.io/' }).then(function(reg) {
+
+    if(reg.installing) {
+      console.log('Service worker installing');
+    } else if(reg.waiting) {
+      console.log('Service worker installed');
+    } else if(reg.active) {
+      console.log('Service worker active');
+    }
+
+  }).catch(function(error) {
+    // registration failed
+    console.log('Registration failed with ' + error);
+  });
+}
+
 var db, moonth=[31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-// create a blank instance of the object that is used to transfer data into the IDB. This is mainly for reference
 var newItem = [
     { taskTitle: "", hours: 0, minutes: 0, day: 0, month: "", year: 0, notified: "no" }
 ];
@@ -76,7 +92,6 @@ class Item{
       default:
       console.log('Incorrect month entered in database.');
     }
-    //var monthName="e";
     li.innerHTML=`<h3>${this.name}</h3><h4>${this.place} | ${monthName} ${str}</h4>
     <p>
     <span>Напомнить за</span>
@@ -88,18 +103,13 @@ class Item{
 
     li.querySelector(".three").addEventListener('click', function(e){
       var numOfMonth,numOfDay;
-      console.log(items.startDate);
-      //console.log(moonth[items.month-1]);
-      //console.log(moonth[items.month-1]+items.startDate-3);
       if(items.startDate-3<1){
         numOfMonth=items.month-1;
-        //console.log(moonth[numOfMonth]);
         numOfDay=moonth[numOfMonth]+items.startDate-3;
       }else{
         numOfDay=items.startDate-3;
         numOfMonth=items.month;
       }
-      console.log(items.name);
       var newItem = [
                 { taskTitle: items.name, day: numOfDay, month: numOfMonth, year: 2019, notified: "no" }
             ];
@@ -119,27 +129,18 @@ class Item{
       };
     },false)
 
-
-
-
     li.querySelector(".seven").addEventListener('click', function(e){
       var numOfMonth,numOfDay;
-      console.log(items.startDate);
-      //console.log(moonth[items.month-1]);
-      //console.log(moonth[items.month-1]+items.startDate-3);
       if(items.startDate-7<1){
         numOfMonth=items.month-1;
-        //console.log(moonth[numOfMonth]);
         numOfDay=moonth[numOfMonth]+items.startDate-7;
       }else{
         numOfDay=items.startDate-7;
         numOfMonth=items.month;
       }
-      console.log(items.name);
       var newItem = [
                 { taskTitle: items.name, day: numOfDay, month: numOfMonth, year: 2019, notified: "no" }
             ];
-      console.log(newItem);
       var transaction = db.transaction(["toDoList"], "readwrite");
       transaction.oncomplete = function() {
         console.log("Transaction completed: database modification finished");
@@ -156,22 +157,16 @@ class Item{
     },false)
     li.querySelector(".fourteen").addEventListener('click', function(e){
       var numOfMonth,numOfDay;
-      console.log(items.startDate);
-      //console.log(moonth[items.month-1]);
-      //console.log(moonth[items.month-1]+items.startDate-3);
       if(items.startDate-14<1){
         numOfMonth=items.month-1;
-        //console.log(moonth[numOfMonth]);
         numOfDay=moonth[numOfMonth]+items.startDate-14;
       }else{
         numOfDay=items.startDate-14;
         numOfMonth=items.month;
       }
-      console.log(items.name);
       var newItem = [
                 { taskTitle: items.name, day: numOfDay, month: numOfMonth, year: 2019, notified: "no" }
             ];
-      console.log(newItem);
       var transaction = db.transaction(["toDoList"], "readwrite");
       transaction.oncomplete = function() {
         console.log("Transaction completed: database modification finished");
@@ -188,17 +183,6 @@ class Item{
     },false)
     return li;
   }
-  /*html(){
-    return `
-    <li>
-    <h3>${this.name}</h3><h4>Цена:${this.place}</h4>
-    <ol>${this.colors.map(c=>c.html()).join('')}</ol>
-    <table><tbody>${this.properties.map(p=>p.html()).join('')}</tbody></table>
-    <p><input type="number"/>
-    <input type="button" value="Добавить" class ="addToCart"/>
-    </p>
-    </li>`;
-  }*/
 }
 window.onload = function() {
   window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
@@ -212,11 +196,7 @@ window.onload = function() {
   DBOpenRequest.onsuccess = function(event) {
     console.log("Database initialised");
 
-        // store the result of opening the database in the db variable. This is used a lot below
     db = DBOpenRequest.result;
-
-        // Run the displayData() function to populate the task list with all the to-do list data already in the IDB
-    //displayData();
   };
 
 
@@ -228,15 +208,12 @@ window.onload = function() {
             console.log("Error loading database");
         };
 
-        // Create an objectStore for this database
-
         var objectStore = db.createObjectStore("toDoList", { keyPath: "taskTitle" });
         objectStore.createIndex("day", "day", { unique: false });
         objectStore.createIndex("month", "month", { unique: false });
         objectStore.createIndex("year", "year", { unique: false });
         objectStore.createIndex("notified", "notified", { unique: false });
 
-        //note.innerHTML += '<li>Object store created.</li>';
     };
 
       function checkDeadlines() {
@@ -253,12 +230,9 @@ window.onload = function() {
             if(cursor) {
 
                 if(hourCheck == 10 && minuteCheck == 00 && +(cursor.value.day) == dayCheck-cursor.value.period && cursor.value.month == monthCheck && cursor.value.year == yearCheck && cursor.value.notified == "no") {
-
-                    // If the numbers all do match, run the createNotification() function to create a system notification
                     createNotification(cursor.value.taskTitle);
                 }
 
-                // move on and perform the same deadline check on the next cursor item
                 cursor.continue();
             }
 
@@ -269,14 +243,11 @@ window.onload = function() {
 
     function createNotification(title) {
 
-        // Let's check if the browser supports notifications
         if (!"Notification" in window) {
             console.log("This browser does not support notifications.");
         }
 
-        // Let's check if the user is okay to get some notification
         else if (Notification.permission === "granted") {
-            // If it's okay let's create a notification
 
             var img = '/Voloshch.github.io/img/icon-128.png';
             var text = 'HEY! Your task "' + title + '" is now overdue.';
@@ -285,18 +256,13 @@ window.onload = function() {
             window.navigator.vibrate(500);
         }
 
-        // Otherwise, we need to ask the user for permission
-        // Note, Chrome does not implement the permission static property
-        // So we have to check for NOT 'denied' instead of 'default'
         else if (Notification.permission !== 'denied') {
             Notification.requestPermission(function (permission) {
 
-                // Whatever the user answers, we make sure Chrome stores the information
                 if(!('permission' in Notification)) {
                     Notification.permission = permission;
                 }
 
-                // If the user is okay, let's create a notification
                 if (permission === "granted") {
                     var img = '/Voloshch.github.io/img/icon-128.png';
                     var text = 'HEY! Your task "' + title + '" is now overdue.';
@@ -307,32 +273,20 @@ window.onload = function() {
             });
         }
 
-        // At last, if the user already denied any notification, and you
-        // want to be respectful there is no need to bother him any more.
-
-        // now we need to update the value of notified to "yes" in this particular data object, so the
-        // notification won't be set off on it again
-
-        // first open up a transaction as usual
         var objectStore = db.transaction(['toDoList'], "readwrite").objectStore('toDoList');
 
-        // get the to-do list object that has this title as it's title
         var objectStoreTitleRequest = objectStore.get(title);
 
         objectStoreTitleRequest.onsuccess = function() {
-            // grab the data object returned as the result
-            var data = objectStoreTitleRequest.result;
 
-            // update the notified value in the object to "yes"
+            var data = objectStoreTitleRequest.result;
             data.notified = "yes";
 
-            // create another request that inserts the item back into the database
             var updateTitleRequest = objectStore.put(data);
 
-            // when this new request succeeds, run the displayData() function again to update the display
+          
             updateTitleRequest.onsuccess = function() {
-                //displayData();
-                console.log("kuku");
+                console.log("success");
             }
         }
     }
