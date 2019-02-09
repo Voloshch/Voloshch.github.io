@@ -228,8 +228,9 @@ window.onload = function() {
             var cursor = event.target.result;
             if(cursor) {
               console.log(cursor);
-                if(hourCheck == 10 && minuteCheck == 00 && +(cursor.value.day) == dayCheck-cursor.value.period && cursor.value.month == monthCheck && cursor.value.year == yearCheck && cursor.value.notified == "no") {
+                if(hourCheck == 20 && minuteCheck == 15 && cursor.value.day == dayCheck && cursor.value.month == monthCheck && cursor.value.year == yearCheck && cursor.value.notified == "no") {
                     createNotification(cursor.value.taskTitle);
+                    alert("wrgegetbetbb");
                 }
 
                 cursor.continue();
