@@ -303,5 +303,5 @@ window.onload = function() {
   })
   items.forEach(i=>document.body.appendChild(i.dom()));
 })
-  setInterval(checkDeadlines, 1000);
+  //setInterval(checkDeadlines, 1000);
 }
