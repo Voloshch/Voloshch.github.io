@@ -206,17 +206,17 @@ window.onload = function() {
   window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
   var DBOpenRequest = window.indexedDB.open("toDoList", 4);
   DBOpenRequest.onerror = function(event) {
-    note.innerHTML += '<li>Error loading database.</li>';
+    console.log("Error loading database");
   };
 
   DBOpenRequest.onsuccess = function(event) {
-    note.innerHTML += '<li>Database initialised.</li>';
+    console.log("Database initialised");
 
         // store the result of opening the database in the db variable. This is used a lot below
     db = DBOpenRequest.result;
 
         // Run the displayData() function to populate the task list with all the to-do list data already in the IDB
-    displayData();
+    //displayData();
   };
 
 
